@@ -72,7 +72,7 @@ object SlowTest : BuildType({
     steps {
         maven {
             goals = "test"
-            runnerArgs = "-Dtest=*.unit.*"
+            runnerArgs = "-Dtest=\"*.unit.*Test\""
         }
     }
 
@@ -89,7 +89,7 @@ object FastTest : BuildType({
     steps {
         maven {
             goals = "package"
-            runnerArgs = "-Dtest=*.integration.*"
+            runnerArgs = "-Dtest=\"*.integration.*\""
         }
     }
 })
