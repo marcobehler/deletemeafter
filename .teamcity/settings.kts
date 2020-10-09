@@ -26,6 +26,7 @@ To debug in IntelliJ Idea, open the 'Maven Projects' tool window (View
 
 version = "2020.1"
 
+
 project {
     buildType(Compile)
     buildType(SlowTest)
@@ -46,7 +47,10 @@ project {
 }
 
 object Compile : BuildType({
-    name = "Compile"
+
+    val myName = "party"
+
+    name = myName
 
     vcs {
         root(DslContext.settingsRoot)
