@@ -58,7 +58,7 @@ project {
 
 
 class Maven(configName: String, goals: String, runnerArgs: String = "") : BuildType({
-    id("Build_${configName}".toExtId())
+    id("BuildMe_${configName}".toExtId())
     name = configName
     vcs {
         root(DslContext.settingsRoot)
