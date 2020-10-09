@@ -34,6 +34,7 @@ project {
     val slowTest = Maven("Slow Test", "test", "-Dtest=\"*.unit.*Test\"")
     val fastTest = Maven("Fast Test", "test", "-Dtest=\"*.ïntegration.*Test\"")
     val `package` = Maven("Package", "package", "-DskipTests")
+
     `package`.triggers {
         vcs {
 
@@ -60,6 +61,7 @@ project {
 class Maven(name: String, goals: String, runnerArgs: String = "") : BuildType({
     id("BuildMe_${name}".toExtId())
     this.name = name
+
     vcs {
         root(DslContext.settingsRoot)
     }
