@@ -50,7 +50,7 @@ project {
         }
         buildType(`package`)
     }
-    chain.buildTypes().forEach{ bt -> buildType { bt }}
+    chain.buildTypes().forEach{ bt -> buildType (bt)}
 
     buildTypesOrder = listOf(compile, slowTest, fastTest, `package`)
 }
