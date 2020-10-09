@@ -38,15 +38,17 @@ object Build : BuildType({
         root(DslContext.settingsRoot)
     }
 
-    steps {
-        maven {
-            goals = "clean test"
-            runnerArgs = "-Dmaven.test.failure.ignore=true"
-        }
-    }
+
 
     triggers {
         vcs {
+        }
+    }
+
+    steps {
+        maven {
+            goals = "clean package"
+            runnerArgs = "-Dmaven.test.failure.ignore=true"
         }
     }
 })
