@@ -32,7 +32,7 @@ project {
 
     val compile = Maven("Compile", "clean compile")
     val slowTest = Maven("Slow Test", "test", "-Dtest=\"*.unit.*Test\"")
-    val fastTest = Maven("Fast Test", "test", "-Dtest=\"*.ïntegration.*Test\"")
+    val fastTest = Maven("Fast Test", "test", "-Dtest=\"*.integration.*Test\"")
     val `package` = Maven("Package", "package", "-DskipTests")
 
     `package`.triggers {
