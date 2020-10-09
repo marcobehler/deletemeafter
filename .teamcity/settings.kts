@@ -28,9 +28,9 @@ To debug in IntelliJ Idea, open the 'Maven Projects' tool window (View
 
 version = "2020.1"
 
+project(TheProject)
 
-project {
-
+object TheProject: Project ({
     val compile = Maven("Compile", "clean compile")
     val slowTest = Maven("Slow Test", "test", "-Dtest=\"*.unit.*Test\"")
     val fastTest = Maven("Fast Test", "test", "-Dtest=\"*.integration.*Test\"")
@@ -55,7 +55,7 @@ project {
     chain.buildTypes().forEach { buildType(it)}
 
     buildTypesOrder = listOf(compile, slowTest, fastTest, `package`)
-}
+})
 
 object MyVcsRoot : GitVcsRoot({
     id("HttpsGithubComMarcobehlerDeletemeafterGitRefsHeadsMaster")
