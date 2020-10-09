@@ -59,8 +59,8 @@ project {
 
 object MyVcsRoot : GitVcsRoot({
     id("HttpsGithubComMarcobehlerDeletemeafterGitRefsHeadsMaster")
-    name = "My VCS ROOT"
-    url = "https://github.com/marcobehler/deletemeafter.git"
+    name = DslContext.getParameter("vcsName", "My VCS Repo")
+    url = DslContext.getParameter("vcsUrl" )
     branch = "ref/heads/master"
 })
 
