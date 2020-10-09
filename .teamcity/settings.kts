@@ -46,9 +46,11 @@ project {
     buildTypesOrder = listOf(Compile, SlowTest, FastTest, Package)
 }
 
+
+
 object Compile : BuildType({
 
-    val myName = "party"
+    val myName = "Compile"
 
     name = myName
 
