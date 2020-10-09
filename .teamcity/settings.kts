@@ -2,6 +2,7 @@ import jetbrains.buildServer.configs.kotlin.v10.toExtId
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.maven
 import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.vcs
+import jetbrains.buildServer.configs.kotlin.v2019_2.vcs.GitVcsRoot
 
 /*
 The settings script is an entry point for defining a TeamCity
@@ -56,6 +57,11 @@ project {
     buildTypesOrder = listOf(compile, slowTest, fastTest, `package`)
 }
 
+object MyVcsRoot : GitVcsRoot({
+    name = "My VCS ROOT"
+    url = "https://github.com/marcobehler/deletemeafter.git"
+    branch = "ref/heads/master"
+})
 
 
 class Maven(name: String, goals: String, runnerArgs: String = "") : BuildType({
@@ -63,7 +69,7 @@ class Maven(name: String, goals: String, runnerArgs: String = "") : BuildType({
     this.name = name
 
     vcs {
-        root(DslContext.settingsRoot)
+        root(MyVcsRoot)
     }
 
     steps {
