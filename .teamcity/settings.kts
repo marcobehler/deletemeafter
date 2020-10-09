@@ -1,3 +1,4 @@
+import jetbrains.buildServer.configs.kotlin.v10.toExtId
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.maven
 import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.vcs
@@ -28,97 +29,45 @@ version = "2020.1"
 
 
 project {
-    buildType(Compile)
-    buildType(SlowTest)
-    buildType(FastTest)
-    buildType(Package)
 
-    sequential {
-        buildType(Compile)
+    val compile = Maven("Compile", "clean compile")
+    val slowTest = Maven("Slow Test", "test", "-Dtest=\"*.unit.*Test\"")
+    val fastTest = Maven("Fast Test", "test", "-Dtest=\"*.ïntegration.*Test\"")
+    val `package` = Maven("Compile", "package", "-DskipTests")
+    `package`.triggers {
+        vcs {
+
+        }
+    }
+    `package`.artifactRules =  "**/*/.jar"
+
+    val chain = sequential {
+        buildType(compile)
 
         parallel {
-            buildType(FastTest)
-            buildType(SlowTest)
+            buildType(fastTest)
+            buildType(slowTest)
         }
-        buildType(Package)
+        buildType(`package`)
     }
+    chain.buildTypes().forEach{ bt -> buildType { bt }}
 
-    buildTypesOrder = listOf(Compile, SlowTest, FastTest, Package)
+    buildTypesOrder = listOf(compile, slowTest, fastTest, `package`)
 }
 
 
 
-object Compile : BuildType({
-
-    val myName = "Compile"
-
-    name = myName
-
+class Maven(name: String, goals: String, runnerArgs: String = "") : BuildType({
+    id("Build_${name}".toExtId())
+    this.name = name
     vcs {
         root(DslContext.settingsRoot)
     }
 
     steps {
         maven {
-            goals = "clean test"
-            runnerArgs = "-Dmaven.test.failure.ignore=true"
+            this.goals = goals
+            this.runnerArgs = runnerArgs
         }
     }
 })
-
-
-
-object SlowTest : BuildType({
-    name = "Slow Test"
-
-    vcs {
-        root(DslContext.settingsRoot)
-    }
-
-    steps {
-        maven {
-            goals = "test"
-            runnerArgs = "-Dtest=\"*.unit.*Test\""
-        }
-    }
-
-})
-
-
-object FastTest : BuildType({
-    name = "Fast Test"
-
-    vcs {
-        root(DslContext.settingsRoot)
-    }
-
-    steps {
-        maven {
-            goals = "package"
-            runnerArgs = "-Dtest=\"*.integration.*Test\""
-        }
-    }
-})
-
-
-
-object Package : BuildType({
-    name = "Package"
-
-    vcs {
-        root(DslContext.settingsRoot)
-    }
-
-    steps {
-        maven {
-            goals = "package"
-            runnerArgs = "-DskipTests"
-        }
-    }
-
-    triggers {
-        vcs {
-        }
-    }
-})
-
