@@ -36,8 +36,8 @@ project {
         buildType(Compile)
 
         parallel {
-            buildType(SlowTest)
             buildType(FastTest)
+            buildType(SlowTest)
         }
         buildType(Package)
     }
@@ -89,7 +89,7 @@ object FastTest : BuildType({
     steps {
         maven {
             goals = "package"
-            runnerArgs = "-Dtest=\"*.integration.*\""
+            runnerArgs = "-Dtest=\"*.integration.*Test\""
         }
     }
 })
