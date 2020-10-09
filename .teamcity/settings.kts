@@ -27,12 +27,24 @@ To debug in IntelliJ Idea, open the 'Maven Projects' tool window (View
 version = "2020.1"
 
 project {
+    buildType(Compile)
+    buildType(SlowTest)
+    buildType(FastTest)
+    buildType(Package)
 
-    buildType(Build)
+    sequential {
+        buildType(Compile)
+
+        parallel {
+            buildType(SlowTest)
+            buildType(FastTest)
+        }
+        buildType(Package)
+    }
 }
 
-object Build : BuildType({
-    name = "Build"
+object Compile : BuildType({
+    name = "Compile"
 
     vcs {
         root(DslContext.settingsRoot)
@@ -44,9 +56,61 @@ object Build : BuildType({
             runnerArgs = "-Dmaven.test.failure.ignore=true"
         }
     }
+})
+
+
+
+object SlowTest : BuildType({
+    name = "Slow Test"
+
+    vcs {
+        root(DslContext.settingsRoot)
+    }
+
+    steps {
+        maven {
+            goals = "test"
+            runnerArgs = "-Dtest=*.unit.*"
+        }
+    }
+
+})
+
+
+object FastTest : BuildType({
+    name = "Fast Test"
+
+    vcs {
+        root(DslContext.settingsRoot)
+    }
+
+    steps {
+        maven {
+            goals = "package"
+            runnerArgs = "-Dtest=*.integration.*"
+        }
+    }
+})
+
+
+
+object Package : BuildType({
+    name = "Package"
+
+    vcs {
+        root(DslContext.settingsRoot)
+    }
+
+    steps {
+        maven {
+            goals = "package"
+            runnerArgs = "-DskipTests"
+        }
+    }
 
     triggers {
         vcs {
         }
     }
 })
+
