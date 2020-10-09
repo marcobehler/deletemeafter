@@ -58,7 +58,7 @@ project {
 }
 
 object MyVcsRoot : GitVcsRoot({
-    id("Deletemeafter_HttpsGithubComMarcobehlerDeletemeafterGitRefsHeadsMaster")
+    id("HttpsGithubComMarcobehlerDeletemeafterGitRefsHeadsMaster")
     name = "My VCS ROOT"
     url = "https://github.com/marcobehler/deletemeafter.git"
     branch = "ref/heads/master"
