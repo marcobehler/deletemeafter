@@ -41,6 +41,8 @@ project {
         }
         buildType(Package)
     }
+
+    buildTypesOrder = listOf(Compile, SlowTest, FastTest, Package)
 }
 
 object Compile : BuildType({
