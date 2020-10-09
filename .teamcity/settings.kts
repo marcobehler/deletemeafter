@@ -33,13 +33,13 @@ project {
     val compile = Maven("Compile", "clean compile")
     val slowTest = Maven("Slow Test", "test", "-Dtest=\"*.unit.*Test\"")
     val fastTest = Maven("Fast Test", "test", "-Dtest=\"*.ïntegration.*Test\"")
-    val `package` = Maven("Compile", "package", "-DskipTests")
+    val `package` = Maven("Package", "package", "-DskipTests")
     `package`.triggers {
         vcs {
 
         }
     }
-    `package`.artifactRules =  "**/*/.jar"
+    `package`.artifactRules =  "**/*.jar"
 
     val chain = sequential {
         buildType(compile)
@@ -57,9 +57,9 @@ project {
 
 
 
-class Maven(configName: String, goals: String, runnerArgs: String = "") : BuildType({
-    id("BuildMe_${configName}".toExtId())
-    name = configName
+class Maven(name: String, goals: String, runnerArgs: String = "") : BuildType({
+    id("BuildMe_${name}".toExtId())
+    this.name = name
     vcs {
         root(DslContext.settingsRoot)
     }
